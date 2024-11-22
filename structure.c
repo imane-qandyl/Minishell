@@ -1,42 +1,24 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   structure.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/18 10:24:29 by imqandyl          #+#    #+#             */
+/*   Updated: 2024/11/18 10:29:22 by imqandyl         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-typedef enum e_token_type
-{
-    TOKEN_WORD,     // Commands and arguments
-    TOKEN_PIPE,     // |
-    TOKEN_REDIR_IN, // <
-    TOKEN_REDIR_OUT,// >
-    TOKEN_APPEND,   // >>
-    TOKEN_HEREDOC,  // <<
-    TOKEN_SPACE     // Space or tabs
-} t_token_type;
+#include "minishell.h"
 
-typedef struct s_token
+// Add this structure at the top
+typedef struct s_parser_state
 {
-    char            *value;
-    t_token_type    type;
-    struct s_token  *next;
-} t_token;
-
-typedef struct s_arg
-{
-    char            *value;
-    struct s_arg    *next;
-} t_arg;
-
-typedef struct s_command
-{
-    char            *cmd_name;   // The command name (e.g., "echo")
-    t_arg           *args;       // A linked list of arguments
-    char            *infile;     // Input redirection (optional)
-    char            *outfile;    // Output redirection (optional)
-    int             append_mode; // Whether output redirection is in append mode (1) or not (0)
-    struct s_command *next;      // Points to the next command in the list
-} t_command;
+    int error;
+    char *error_message;
+    int line_number;
+} t_parser_state;
 
 // Token list management functions:
 t_token *create_token(char *value, t_token_type type)
@@ -185,6 +167,17 @@ t_token *tokenize_input(char *input)
             }
             continue;
         }
+        // Handle quotes
+        else if (input[i] == '"' || input[i] == '\'')
+        {
+            char quote = input[i++];
+            while (input[i] && input[i] != quote)
+            {
+                buffer[j++] = input[i++];
+            }
+            if (input[i] == quote) i++;  // Skip closing quote
+            continue;
+        }
         buffer[j++] = input[i++];
     }
     if (j > 0)
@@ -219,10 +212,37 @@ t_command *tokenize_input_to_commands(char *input)
                 add_argument(current_command, token->value);
             }
         }
-        else if (token->type == TOKEN_PIPE || token->type == TOKEN_REDIR_IN ||
-                 token->type == TOKEN_REDIR_OUT || token->type == TOKEN_APPEND || token->type == TOKEN_HEREDOC)
+        else if (token->type == TOKEN_PIPE)
         {
-            // Handle pipes or redirections (optional)
+            if (current_command)
+            {
+                add_command(&command_list, current_command);
+                current_command = NULL;
+            }
+        }
+        else if (token->type == TOKEN_REDIR_IN)
+        {
+            token = token->next;
+            if (token && token->type == TOKEN_WORD)
+                current_command->infile = strdup(token->value);
+        }
+        else if (token->type == TOKEN_REDIR_OUT)
+        {
+            token = token->next;
+            if (token && token->type == TOKEN_WORD)
+            {
+                current_command->outfile = strdup(token->value);
+                current_command->append_mode = 0;
+            }
+        }
+        else if (token->type == TOKEN_APPEND)
+        {
+            token = token->next;
+            if (token && token->type == TOKEN_WORD)
+            {
+                current_command->outfile = strdup(token->value);
+                current_command->append_mode = 1;
+            }
         }
 
         token = token->next;
@@ -254,6 +274,21 @@ void print_commands(t_command *cmd_list)
 
         cmd = cmd->next;
     }
+}
+
+int validate_command(t_command *cmd)
+{
+    if (!cmd->cmd_name)
+        return 0;  // Invalid command
+    
+    // Check for valid file descriptors
+    if (cmd->infile && access(cmd->infile, R_OK) != 0)
+        return 0;  // Input file not accessible
+    
+    if (cmd->outfile && cmd->append_mode && access(cmd->outfile, W_OK) != 0)
+        return 0;  // Output file not writable
+    
+    return 1;  // Command is valid
 }
 
 int main(void)

@@ -6,7 +6,7 @@
 /*   By: iliastepanov <iliastepanov@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 14:04:57 by iliastepano       #+#    #+#             */
-/*   Updated: 2024/11/24 17:52:38 by iliastepano      ###   ########.fr       */
+/*   Updated: 2024/11/24 18:32:57 by iliastepano      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,15 @@ void unset_variable(const char *var)
     }
 }
 
-int main(int argc, char **argv)
-{
-	init_environ();
-    custom_env();
-	if (argc < 2)
-		perror("unset error");
-	else
-		unset_variable(argv[1]);
-    custom_env();
-	cleanup_environ();
-	return (0);
-}
+// int main(int argc, char **argv)
+// {
+// 	init_environ();
+//     custom_env();
+// 	if (argc < 2)
+// 		perror("unset error");
+// 	else
+// 		unset_variable(argv[1]);
+//     custom_env();
+// 	cleanup_environ();
+// 	return (0);
+// }

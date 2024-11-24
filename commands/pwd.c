@@ -6,13 +6,13 @@
 /*   By: iliastepanov <iliastepanov@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 21:32:16 by iliastepano       #+#    #+#             */
-/*   Updated: 2024/11/24 16:37:25 by iliastepano      ###   ########.fr       */
+/*   Updated: 2024/11/24 18:29:08 by iliastepano      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void custom_pwd()
+void custom_pwd(void)
 {
     int i;
 

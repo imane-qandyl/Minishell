@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iliastepanov <iliastepanov@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 21:15:25 by imqandyl          #+#    #+#             */
-/*   Updated: 2024/11/21 08:01:02 by imqandyl         ###   ########.fr       */
+/*   Updated: 2024/11/24 18:29:14 by iliastepano      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,18 @@
 # include <ctype.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <stdbool.h>
+
 // Add these error handling functions at the top
 #define SYNTAX_ERROR 1
 #define QUOTE_ERROR 2
 #define ERROR_MEMORY 3
 #define ERROR_BUFFER_OVERFLOW 4
 #define ERROR_INVALID_REDIRECT 5
+
+
+extern char **environ;
+char ***g_environ;
 
 typedef enum e_token_type
 {
@@ -101,4 +107,12 @@ int handle_quotes(char *input, int *i, char *buffer, int *j);
 
 void free_command_list(t_command *cmd_list);
 
+
+
+void custom_pwd(void);
+void custom_env(void);
+void custom_pwd(void);
+
+void init_environ(void);
+void cleanup_environ(void);
 #endif

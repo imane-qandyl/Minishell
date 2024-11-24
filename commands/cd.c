@@ -6,7 +6,7 @@
 /*   By: iliastepanov <iliastepanov@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 14:04:57 by iliastepano       #+#    #+#             */
-/*   Updated: 2024/11/24 16:25:39 by iliastepano      ###   ########.fr       */
+/*   Updated: 2024/11/24 18:45:54 by iliastepano      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,42 @@
 
 static void	cd_with_one_arg(const char *path, int argc)
 {
+	int i;
+
 	if (argc != 2)
 		return ;
-    if (chdir(path) == -1)
-        perror("error: cd");
+	i = -1;
+	while (g_environ[0][++i])
+	{
+		if (strcmp(g_environ[0][i], "PWD") != 0)
+			continue ;
+		if (chdir(path) == -1)
+		{
+			perror("error: cd");
+			return ;
+		}
+		free(g_environ[1][i]);
+		g_environ[1][i] = strdup(path);
+		return ;
+	}
+	perror("error: PWD not found in environment");
 }
 
 static void	cd_with_no_arg(int argc)
 {
-	const char *home_dir;
+	int i;
+
 	if (argc != 1)
 		return ;
-	home_dir = getenv("HOME");
-	if (home_dir == NULL)
-		return perror("error: cd HOME environment variable not set");
-	cd_with_one_arg(home_dir, argc);
+	i = -1;
+	while (g_environ[0][++i])
+	{
+		if (strcmp(g_environ[0][i], "HOME") != 0)
+			continue ;
+		cd_with_one_arg(g_environ[1][i], argc);
+		return ;
+	}
+	perror("error: HOME not found in environment");
 }
 
 static void	cd_with_many_arg(int argc)

@@ -3,50 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iliastepanov <iliastepanov@student.42.f    +#+  +:+       +#+        */
+/*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/11 21:18:37 by iliastepano       #+#    #+#             */
-/*   Updated: 2024/11/11 21:34:01 by iliastepano      ###   ########.fr       */
+/*   Created: 2024/11/20 19:24:32 by imqandyl          #+#    #+#             */
+/*   Updated: 2024/11/21 11:54:39 by imqandyl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_command *create_command_node(const char *command, char **args, int args_count, const char *redirect, const char *filename)
+int main(void)
 {
-    t_command *node = malloc(sizeof(t_command));
-    if (!node)
-        return NULL;
-    node->command = strdup(command);
-    node->args = malloc(args_count * sizeof(char *));
-    for (int i = 0; i < args_count; i++) {
-        node->args[i] = strdup(args[i]);
-    }
-    node->args_count = args_count;
-    node->redirect = redirect ? strdup(redirect) : NULL;
-    node->filename = filename ? strdup(filename) : NULL;
+    char *input;
+    t_command *commands;
 
-    return node;
-}
-
-
-void free_command_node(t_command *node)
-{
-    if (!node)
-        return;
-    free(node->command);
-    for (int i = 0; i < node->args_count; i++)
+    while (1)
     {
-        free(node->args[i]);
-    }
-    free(node->args);
-    free(node->redirect);
-    free(node->filename);
-    free(node);
-}
+        input = readline("minishell> ");
+        if (!input)
+            break;
+        if (input[0] != '\0') // Don't process empty input
+        {
+            add_history(input); // Add to history
+            commands = tokenize_input_to_commands(input);
 
-int main()
-{
-    builtin_pwd();
-    return (0);
+            if (commands)
+            {
+                print_commands(commands);
+                free_command_list(commands);
+            }
+        }
+
+        free(input); // Free the input string
+    }
+
+    return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 10:24:29 by imqandyl          #+#    #+#             */
-/*   Updated: 2024/11/21 10:07:44 by imqandyl         ###   ########.fr       */
+/*   Updated: 2024/11/25 08:46:38 by imqandyl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,3 @@ void free_tokens(t_token *list)
         free(temp);
     }
 }
-

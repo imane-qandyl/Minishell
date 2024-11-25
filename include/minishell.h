@@ -6,7 +6,7 @@
 /*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 21:15:25 by imqandyl          #+#    #+#             */
-/*   Updated: 2024/11/21 08:01:02 by imqandyl         ###   ########.fr       */
+/*   Updated: 2024/11/24 09:39:14 by imqandyl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 # include <ctype.h>
+# include <stdbool.h> 
 # include <readline/readline.h>
 # include <readline/history.h>
 // Add these error handling functions at the top
@@ -38,7 +39,8 @@ typedef enum e_token_type
 	TOKEN_REDIR_OUT,	/* > */
 	TOKEN_APPEND,	/* >> */
 	TOKEN_HEREDOC,	/* << */
-	TOKEN_SPACE		/* Space or tabs */
+	TOKEN_SPACE,	/* Space or tabs */
+	TOKEN_SEMICOLON,	/* ; */
 }	t_token_type;
 typedef struct s_token
 {
@@ -100,5 +102,6 @@ int check_syntax_error(t_token *tokens);
 int handle_quotes(char *input, int *i, char *buffer, int *j);
 
 void free_command_list(t_command *cmd_list);
+void run_parser_tests(void);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 21:15:25 by imqandyl          #+#    #+#             */
-/*   Updated: 2024/11/24 09:39:14 by imqandyl         ###   ########.fr       */
+/*   Updated: 2024/11/25 09:07:59 by imqandyl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <stdbool.h> 
 # include <readline/readline.h>
 # include <readline/history.h>
-// Add these error handling functions at the top
+
 #define SYNTAX_ERROR 1
 #define QUOTE_ERROR 2
 #define ERROR_MEMORY 3

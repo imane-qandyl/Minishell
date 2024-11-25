@@ -6,11 +6,11 @@
 /*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 19:24:32 by imqandyl          #+#    #+#             */
-/*   Updated: 2024/11/25 08:08:41 by imqandyl         ###   ########.fr       */
+/*   Updated: 2024/11/25 09:16:43 by imqandyl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 int main(void)
 {

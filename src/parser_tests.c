@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../include/minishell.h"
 #include <ctype.h>
 
 // Add these declarations at the top of the file, after the includes

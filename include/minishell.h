@@ -6,7 +6,7 @@
 /*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 21:15:25 by imqandyl          #+#    #+#             */
-/*   Updated: 2024/11/25 09:07:59 by imqandyl         ###   ########.fr       */
+/*   Updated: 2024/11/27 10:59:10 by imqandyl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef enum e_token_type
 	TOKEN_APPEND,	/* >> */
 	TOKEN_HEREDOC,	/* << */
 	TOKEN_SPACE,	/* Space or tabs */
-	TOKEN_SEMICOLON,	/* ; */
+	TOKEN_SEMICOLON
 }	t_token_type;
 typedef struct s_token
 {

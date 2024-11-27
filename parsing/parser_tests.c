@@ -15,23 +15,24 @@ typedef struct s_test_case {
 static t_test_case tests[] = {
     // ... existing test cases ...
 
-  {"ls", true, "Simple command"},
+  // Simple Commands
+    {"ls", true, "Simple command"},
     {"   ls   ", true, "Command with spaces"},
     {"", false, "Empty command"},
     {"     ", false, "Only spaces"},
-    
+
     // Redirection Tests
     {"ls > file", true, "Simple output redirection"},
-    {"ls > file1 > file2", false, "Multiple output redirections (invalid)"}, //not handling
+    {"ls > file1 > file2", false, "Multiple output redirections (invalid)"},
     {"cat < file", true, "Input redirection"},
-    {"cat < file1 < file2", false, "Multiple input redirections (invalid)"}, //not handling
+    {"cat < file1 < file2", false, "Multiple input redirections (invalid)"},
     {"ls >> file", true, "Append redirection"},
     {">", false, "Only redirection symbol"},
     {"ls >", false, "Missing redirection target"},
     {"ls > ", false, "Missing redirection target with space"},
-    {"ls > file1 >> file2", false, "Mixed output redirections"}, //not handling
-    {"< file cat", false, "Redirection before command"}, //not handling
-    
+    {"ls > file1 >> file2", false, "Mixed output redirections"},
+    {"< file cat", false, "Redirection before command"},
+
     // Pipe Tests
     {"ls | grep a", true, "Simple pipe"},
     {"ls | grep a | wc -l", true, "Multiple pipes"},
@@ -41,7 +42,7 @@ static t_test_case tests[] = {
     {"| ls", false, "Pipe at start"},
     {"ls || grep", false, "Double pipe"},
     {"ls | | grep", false, "Empty pipe command"},
-    
+
     // Quote Tests
     {"echo \"hello world\"", true, "Double quotes"},
     {"echo 'hello world'", true, "Single quotes"},
@@ -50,35 +51,53 @@ static t_test_case tests[] = {
     {"echo 'hello world", false, "Unclosed single quote"},
     {"echo \"hello > world\"", true, "Redirection in quotes"},
     {"echo \"hello | world\"", true, "Pipe in quotes"},
-    
+
     // Complex Command Tests
     {"cat < input.txt | sort | uniq > output.txt", true, "Complex pipeline"},
     {"echo \"hello\" > \"my file.txt\"", true, "Quoted filename"},
     {"ls -la | grep \".txt\" > files.txt", true, "Pipeline with redirection"},
     {"cat < \"input file.txt\" | sort > \"output file.txt\"", true, "Spaces in filenames"},
-    
+
     // Error Cases
-    {"ls > file1 > file2", false, "Multiple output redirections"}, //not handling
-    {"cat < file1 < file2", false, "Multiple input redirections"},//not handling
+    {"ls > file1 > file2", false, "Multiple output redirections"},
+    {"cat < file1 < file2", false, "Multiple input redirections"},
     {"ls >>> file", false, "Invalid redirection operator"},
     {"ls > file |", false, "Pipe after redirection with no command"},
-    {"ls | > file", false, "Redirection without command after pipe"},//not handling
-    
+    {"ls | > file", false, "Redirection without command after pipe"},
+
     // Edge Cases
     {"echo \"$USER\"", true, "Environment variable in quotes"},
     {"echo '$USER'", true, "Environment variable in single quotes"},
     {"ls -la|grep \".txt\"|wc -l", true, "No spaces around pipes"},
     {"ls      -la     |    grep     \".txt\"", true, "Multiple spaces between args"},
-    
+
     // Invalid Syntax Tests
-    {"ls &", false, "Background operator (not supported)"},//not handling
-    {"ls ; ls", false, "Semicolon (not supported)"},//not handling
+    {"ls &", false, "Background operator (not supported)"},
+    {"ls ; ls", false, "Semicolon (not supported)"},
     {"ls && ls", false, "AND operator (not supported)"},
     {"ls || ls", false, "OR operator (not supported)"},
     {"ls >>>", false, "Invalid redirect syntax"},
     {"ls >< file", false, "Invalid redirect combination"},
-    
-    {NULL, false, NULL}  // End marker
+
+    // Quoted Special Characters
+    {"echo \"hello; world\"", true, "Semicolon in quotes (valid)"},
+    {"echo 'hello; world'", true, "Semicolon in single quotes (valid)"},
+    {"echo hello; world", false, "Semicolon outside quotes (invalid)"},
+    {"ls -l | grep 'file'", true, "Pipe with single quotes"},
+    {"ls -l | grep \"file\"", true, "Pipe with double quotes"},
+    {"echo \"hello > world\" > output.txt", true, "Redirection with quotes"},
+    {"echo \"hello | world\" | sort", true, "Pipe with quotes"},
+    {"ls -la | grep -E \"\\.txt$\"", true, "Regex in pipe"},
+    {"cat < \"input file.txt\" | sort | uniq | wc -l", true, "Complex command with multiple pipes"},
+    {"ls -la | grep -v \"hidden\"", true, "Pipe with negation"},
+    {"echo \"hello\" && echo \"world\"", false, "AND operator (not supported)"},
+    {"echo \"hello\" || echo \"world\"", false, "OR operator (not supported)"},
+    {"ls | grep \"file\" | wc -l | sort", false, "Pipe with multiple outputs (not supported)"},
+    {"ls | grep \"file\" |", false, "Pipe at end with no command"},
+    {"ls | | grep \"file\"", false, "Empty pipe command"},
+
+    // End marker
+    {NULL, false, NULL}
 };
 // ... existing code with struct and test cases ...
 
@@ -111,6 +130,10 @@ void run_parser_tests(void)
 bool is_valid_command(const char *command)
 {
     if (!command || is_empty_or_whitespace(command))
+        return false;
+
+    // Check for unsupported operators
+    if (strstr(command, ";") != NULL)  // Check for semicolon
         return false;
 
     // Try to tokenize the input

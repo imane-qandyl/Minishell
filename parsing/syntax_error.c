@@ -6,12 +6,11 @@
 /*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 08:44:59 by imqandyl          #+#    #+#             */
-/*   Updated: 2024/11/25 09:06:47 by imqandyl         ###   ########.fr       */
+/*   Updated: 2024/11/27 13:11:12 by imqandyl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
-
+#include <minishell.h>
 // Check for invalid starting tokens
 static int check_start_token(t_token *token)
 {
@@ -28,13 +27,11 @@ static int check_start_token(t_token *token)
     return 0;
 }
 
-// Check for unsupported operators
 static int check_unsupported_operators(t_token *token)
 {
     if (token->type == TOKEN_WORD)
     {
         if (strcmp(token->value, "&&") == 0 ||
-            strcmp(token->value, ";") == 0 ||
             strcmp(token->value, "&") == 0)
         {
             // printf("syntax error near unexpected token '%s'\n", token->value);
@@ -44,11 +41,26 @@ static int check_unsupported_operators(t_token *token)
     return 0;
 }
 
+static int check_semicolon_syntax(t_token *token)
+{
+
+        // Check if it's the first token
+        if (token->type == TOKEN_SEMICOLON)
+        {
+        // Check if there's a next token and it's not another semicolon
+            // if (!token->next || token->next->type != TOKEN_WORD)
+            return SYNTAX_ERROR;
+        }
+    return 0;
+}
 // Check pipe syntax
 static int check_pipe_syntax(t_token *token)
 {
     if (token->type == TOKEN_PIPE)
     {
+        if (!token->previous) {
+            return SYNTAX_ERROR;
+        }
         if (!token->next || 
             token->next->type == TOKEN_PIPE ||
             token->next->type == TOKEN_REDIR_OUT ||
@@ -58,6 +70,14 @@ static int check_pipe_syntax(t_token *token)
             // printf("syntax error near unexpected token '|'\n");
             return SYNTAX_ERROR;
         }
+        // t_token *next = token->next;
+        // while (next && next->type != TOKEN_PIPE)
+        // {
+        //     if (next->type == TOKEN_WORD) // Ensure there's a command after the pipe
+        //         return 0; // Valid pipe syntax
+        //     next = next->next;
+        // }
+        // return SYNTAX_ERROR;
     }
     return 0;
 }
@@ -141,6 +161,8 @@ int check_syntax_error(t_token *tokens)
         if (check_redirection_syntax(current))
             return SYNTAX_ERROR;
         if (check_multiple_redirections(current))
+            return SYNTAX_ERROR;
+        if (check_semicolon_syntax(current))
             return SYNTAX_ERROR;
         current = current->next;
     }

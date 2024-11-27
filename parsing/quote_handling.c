@@ -6,11 +6,11 @@
 /*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 19:09:22 by imqandyl          #+#    #+#             */
-/*   Updated: 2024/11/25 09:15:34 by imqandyl         ###   ########.fr       */
+/*   Updated: 2024/11/25 10:19:51 by imqandyl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include <minishell.h>
 
 // Handle quote parsing
 int handle_quotes(char *input, int *i, char *buffer, int *j)

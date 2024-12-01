@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/17 21:15:25 by imqandyl          #+#    #+#             */
-/*   Updated: 2024/11/27 10:59:10 by imqandyl         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -25,11 +14,17 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+# include <stdbool.h>
+
 #define SYNTAX_ERROR 1
 #define QUOTE_ERROR 2
 #define ERROR_MEMORY 3
 #define ERROR_BUFFER_OVERFLOW 4
 #define ERROR_INVALID_REDIRECT 5
+
+
+extern char **environ;
+char ***g_environ;
 
 typedef enum e_token_type
 {
@@ -104,4 +99,12 @@ int handle_quotes(char *input, int *i, char *buffer, int *j);
 void free_command_list(t_command *cmd_list);
 void run_parser_tests(void);
 
+
+
+void custom_pwd(void);
+void custom_env(void);
+void custom_pwd(void);
+
+void init_environ(void);
+void cleanup_environ(void);
 #endif

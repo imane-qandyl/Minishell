@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -9,6 +10,8 @@
 /*   Updated: 2024/11/30 23:57:19 by imqandyl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+=======
+>>>>>>> 6c2e1f9f830287623e796f986a7e976da6d8ddbc
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -25,11 +28,17 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+# include <stdbool.h>
+
 #define SYNTAX_ERROR 1
 #define QUOTE_ERROR 2
 #define ERROR_MEMORY 3
 #define ERROR_BUFFER_OVERFLOW 4
 #define ERROR_INVALID_REDIRECT 5
+
+
+extern char **environ;
+char ***g_environ;
 
 typedef enum e_token_type
 {
@@ -104,10 +113,21 @@ int handle_quotes(char *input, int *i, char *buffer, int *j);
 void free_command_list(t_command *cmd_list);
 void run_parser_tests(void);
 
+<<<<<<< HEAD
 void handle_sigint(int sig);
 void handle_sigquit(int sig);
 void handle_sigterm(int sig);
 
 char *expand_env_vars(char *input, int *exit_status);
 
+=======
+
+
+void custom_pwd(void);
+void custom_env(void);
+void custom_pwd(void);
+
+void init_environ(void);
+void cleanup_environ(void);
+>>>>>>> 6c2e1f9f830287623e796f986a7e976da6d8ddbc
 #endif

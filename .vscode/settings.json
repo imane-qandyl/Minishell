@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "minishell.h": "c",
+<<<<<<< HEAD
         "ctype.h": "c",
         "__bit_reference": "c",
         "__functional_base": "c",
@@ -21,5 +22,9 @@
         "tuple": "c",
         "type_traits": "c",
         "vector": "c"
+=======
+        "ctype.h": "c"
+        "readline.h": "c"
+>>>>>>> 6c2e1f9f830287623e796f986a7e976da6d8ddbc
     }
 }

@@ -6,17 +6,17 @@
 /*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 19:24:32 by imqandyl          #+#    #+#             */
-/*   Updated: 2024/11/21 11:54:39 by imqandyl         ###   ########.fr       */
+/*   Updated: 2024/11/27 16:54:42 by imqandyl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
 
 int main(void)
 {
     char *input;
     t_command *commands;
-
+    //  run_parser_tests();
     while (1)
     {
         input = readline("minishell> ");
@@ -36,6 +36,6 @@ int main(void)
 
         free(input); // Free the input string
     }
-
+   
     return 0;
 }

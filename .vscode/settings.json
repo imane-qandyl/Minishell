@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "minishell.h": "c",
+        "ctype.h": "c"
         "readline.h": "c"
     }
 }

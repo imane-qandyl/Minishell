@@ -6,11 +6,11 @@
 /*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 19:09:22 by imqandyl          #+#    #+#             */
-/*   Updated: 2024/11/24 08:12:43 by imqandyl         ###   ########.fr       */
+/*   Updated: 2024/11/25 10:19:51 by imqandyl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
 
 // Handle quote parsing
 int handle_quotes(char *input, int *i, char *buffer, int *j)
@@ -61,33 +61,5 @@ int handle_quotes(char *input, int *i, char *buffer, int *j)
     
     (*i)++;  // Skip closing quote
     buffer[*j] = '\0';  // Null terminate the buffer
-    return 0;
-}
-
-// Syntax error checking
-int check_syntax_error(t_token *tokens)
-{
-    t_token *current = tokens;
-    
-    while (current)
-    {
-        // Check for pipe errors
-        if (current->type == TOKEN_PIPE)
-        {
-            if (!current->next || !current->previous) //pipe at start or end
-                return SYNTAX_ERROR;
-            if (current->next->type == TOKEN_PIPE) //double pipe    
-                return SYNTAX_ERROR;
-        }
-        // Check for redirection errors
-        if (current->type == TOKEN_REDIR_IN || 
-            current->type == TOKEN_REDIR_OUT || 
-            current->type == TOKEN_APPEND)
-        {
-            if (!current->next || current->next->type != TOKEN_WORD)
-                return SYNTAX_ERROR;
-        }
-        current = current->next;
-    }
     return 0;
 }

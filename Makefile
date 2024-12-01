@@ -1,9 +1,9 @@
 NAME = minishell
 
-SRC = main.c commands_manage.c quote_handling.c token_structure.c token_to_cmd.c
+SRC = main.c commands_manage.c quote_handling.c token_structure.c token_to_cmd.c syntax_error.c parser_tests.c
 OBJ = $(SRC:.c=.o)
 
-PATH_SRC = ./src/
+PATH_SRC = ./parsing/
 PATH_OBJ = ./obj/
 SRC_FILES = $(addprefix $(PATH_SRC), $(SRC))
 OBJ_FILES = $(addprefix $(PATH_OBJ), $(OBJ))

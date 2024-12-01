@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: iliastepanov <iliastepanov@student.42.f    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/17 21:15:25 by imqandyl          #+#    #+#             */
-/*   Updated: 2024/11/24 18:29:14 by iliastepano      ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -21,11 +10,12 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 # include <ctype.h>
+# include <stdbool.h> 
 # include <readline/readline.h>
 # include <readline/history.h>
+
 # include <stdbool.h>
 
-// Add these error handling functions at the top
 #define SYNTAX_ERROR 1
 #define QUOTE_ERROR 2
 #define ERROR_MEMORY 3
@@ -44,7 +34,8 @@ typedef enum e_token_type
 	TOKEN_REDIR_OUT,	/* > */
 	TOKEN_APPEND,	/* >> */
 	TOKEN_HEREDOC,	/* << */
-	TOKEN_SPACE		/* Space or tabs */
+	TOKEN_SPACE,	/* Space or tabs */
+	TOKEN_SEMICOLON
 }	t_token_type;
 typedef struct s_token
 {
@@ -106,6 +97,7 @@ int check_syntax_error(t_token *tokens);
 int handle_quotes(char *input, int *i, char *buffer, int *j);
 
 void free_command_list(t_command *cmd_list);
+void run_parser_tests(void);
 
 
 

@@ -6,17 +6,17 @@
 /*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 19:08:46 by imqandyl          #+#    #+#             */
-/*   Updated: 2024/11/20 19:40:16 by imqandyl         ###   ########.fr       */
+/*   Updated: 2024/11/25 13:23:25 by imqandyl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
 
 t_command *create_command(void)
 {
     t_command *cmd = malloc(sizeof(t_command));
     if (!cmd) return NULL;
-
+ 
     cmd->cmd_name = NULL;
     cmd->args = NULL;
     cmd->infile = NULL;

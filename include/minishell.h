@@ -6,7 +6,7 @@
 /*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 21:15:25 by imqandyl          #+#    #+#             */
-/*   Updated: 2024/11/27 10:59:10 by imqandyl         ###   ########.fr       */
+/*   Updated: 2024/11/30 23:57:19 by imqandyl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,5 +103,11 @@ int handle_quotes(char *input, int *i, char *buffer, int *j);
 
 void free_command_list(t_command *cmd_list);
 void run_parser_tests(void);
+
+void handle_sigint(int sig);
+void handle_sigquit(int sig);
+void handle_sigterm(int sig);
+
+char *expand_env_vars(char *input, int *exit_status);
 
 #endif

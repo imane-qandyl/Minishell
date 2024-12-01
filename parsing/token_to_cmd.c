@@ -6,7 +6,7 @@
 /*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 19:09:57 by imqandyl          #+#    #+#             */
-/*   Updated: 2024/11/25 10:19:42 by imqandyl         ###   ########.fr       */
+/*   Updated: 2024/12/01 00:01:05 by imqandyl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,52 +49,56 @@ static int handle_redirection_tokens(t_token **token_list, char *input, int *i)
 
 t_token *tokenize_input(char *input)
 {
-    t_token *token_list = NULL;
+    int exit_status = 0;
+    char *expanded_input = expand_env_vars(input, &exit_status);
+    t_token *tokens = NULL;
     int i = 0;
     char buffer[1024];
     int j = 0;
 
-    while (input[i])
+    while (expanded_input[i])
     {
-        if (input[i] == '\\' || input[i] == ';')
+        if (expanded_input[i] == '\\' || expanded_input[i] == ';')
         {
             i++;
             continue;
         }
-        if (input[i] == ' ' || input[i] == '\t')
+        if (expanded_input[i] == ' ' || expanded_input[i] == '\t')
         {
-            handle_buffer_flush(&token_list, buffer, &j);
+            handle_buffer_flush(&tokens, buffer, &j);
             i++;
             continue;
         }
-        else if (input[i] == '|')
+        else if (expanded_input[i] == '|')
         {
-            handle_buffer_flush(&token_list, buffer, &j);
-            add_token(&token_list, create_token("|", TOKEN_PIPE));
+            handle_buffer_flush(&tokens, buffer, &j);
+            add_token(&tokens, create_token("|", TOKEN_PIPE));
             i++;
             continue;
         }
-        else if (input[i] == '>' || input[i] == '<')
+        else if (expanded_input[i] == '>' || expanded_input[i] == '<')
         {
-            handle_buffer_flush(&token_list, buffer, &j);
-            handle_redirection_tokens(&token_list, input, &i);
+            handle_buffer_flush(&tokens, buffer, &j);
+            handle_redirection_tokens(&tokens, expanded_input, &i);
             continue;
         }
-        else if (input[i] == '"' || input[i] == '\'')
+        else if (expanded_input[i] == '"' || expanded_input[i] == '\'')
         {
-            handle_buffer_flush(&token_list, buffer, &j);
-            if (handle_quotes(input, &i, buffer, &j) != 0)
+            handle_buffer_flush(&tokens, buffer, &j);
+            if (handle_quotes(expanded_input, &i, buffer, &j) != 0)
             {
-                free_tokens(token_list);
+                free_tokens(tokens);
+                free(expanded_input);
                 return NULL;
             }
             continue;
         }
-        buffer[j++] = input[i++];
+        buffer[j++] = expanded_input[i++];
     }
     
-    handle_buffer_flush(&token_list, buffer, &j);
-    return token_list;
+    handle_buffer_flush(&tokens, buffer, &j);
+    free(expanded_input);
+    return tokens;
 }
 
 static int handle_word_token(t_command **current_cmd, t_token *token)

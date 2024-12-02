@@ -104,6 +104,8 @@ void execute_commands(t_command *cmd_list);
 
 void custom_pwd(t_command *cmd_list);
 void custom_env(t_command *cmd_list);
+void custom_exit(t_command *cmd_list);
+void custom_echo(t_command *cmd_list);
 
 void init_environ(void);
 void cleanup_environ(void);

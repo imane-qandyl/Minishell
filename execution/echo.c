@@ -6,53 +6,49 @@
 /*   By: iliastepanov <iliastepanov@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 14:04:57 by iliastepano       #+#    #+#             */
-/*   Updated: 2024/12/01 19:02:06 by iliastepano      ###   ########.fr       */
+/*   Updated: 2024/12/02 16:36:26 by iliastepano      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	init_variables(bool *no_newline, int *index)
+static void	check_option_n(t_arg *args, bool *is_newline)
 {
-	*no_newline = false;
-	*index = 1;
-}
-
-static void	check_option_n(int argc, char **argv, bool *no_newline, int *index)
-{
-	if (argc <= 1 || strcmp(argv[1], "-n") != 0)
+    *is_newline = false;
+	if (strcmp(args->value, "-n") != 0)
 		return ;
-	*no_newline = true;
-	*index = 2;
+	*is_newline = true;
 }
 
-static void	print_args(int argc, char **argv, int index)
+static void	print_args(t_arg *args, bool is_newline)
 {
-    while (index < argc)
+    if (is_newline)
+       args = args->next;
+    while (args)
 	{
-        printf("%s", argv[index]);
-        if (index < argc - 1)
+        printf("%s", args->value);
+        args = args->next;
+        if (args)
             printf(" ");
-        index++;
     }
 }
 
-static void	print_newline(bool no_newline)
+static void	print_newline(bool is_newline)
 {
-	if (no_newline)
+	if (is_newline)
 		return ;
 	printf("\n");
 }
 
-void custom_echo(int argc, char **argv)
+void custom_echo(t_command *cmd_list)
 {
-    bool no_newline;
-    int index;
+    bool is_newline;
 
-	init_variables(&no_newline, &index);
-    check_option_n(argc, argv, &no_newline, &index);
-    print_args(argc, argv, index);
-    print_newline(no_newline);
+    if (strcmp(cmd_list->cmd_name, "echo") != 0 || !cmd_list->args->value)
+        return ;
+    check_option_n(cmd_list->args, &is_newline);
+    print_args(cmd_list->args, is_newline);
+    print_newline(is_newline);
 }
 
 // int main(int argc, char **argv)

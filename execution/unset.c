@@ -6,7 +6,7 @@
 /*   By: iliastepanov <iliastepanov@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 14:04:57 by iliastepano       #+#    #+#             */
-/*   Updated: 2024/12/02 15:04:34 by iliastepano      ###   ########.fr       */
+/*   Updated: 2024/12/02 15:57:03 by iliastepano      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void unset_variable(const char *var)
 
     if (!is_valid_identifier(var))
     {
-        fprintf(stderr, "unset: `%s': not a valid identifier\n", var);
+        perror("not a valid identifier\n");
         return;
     }
 

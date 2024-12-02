@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iliastepanov <iliastepanov@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 19:24:32 by imqandyl          #+#    #+#             */
-/*   Updated: 2024/11/27 16:54:42 by imqandyl         ###   ########.fr       */
+/*   Updated: 2024/12/02 15:27:49 by iliastepano      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int main(void)
     char *input;
     t_command *commands;
     //  run_parser_tests();
+    init_environ();
     while (1)
     {
         input = readline("minishell> ");
@@ -30,12 +31,14 @@ int main(void)
             if (commands)
             {
                 print_commands(commands);
+                execute_commands(commands);
                 free_command_list(commands);
             }
         }
 
         free(input); // Free the input string
     }
-   
+    cleanup_environ();
+    printf("DONE");
     return 0;
 }

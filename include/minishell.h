@@ -100,10 +100,10 @@ void free_command_list(t_command *cmd_list);
 void run_parser_tests(void);
 
 
+void execute_commands(t_command *cmd_list);
 
-void custom_pwd(void);
-void custom_env(void);
-void custom_pwd(void);
+void custom_pwd(t_command *cmd_list);
+void custom_env(t_command *cmd_list);
 
 void init_environ(void);
 void cleanup_environ(void);

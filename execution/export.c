@@ -6,7 +6,7 @@
 /*   By: iliastepanov <iliastepanov@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 14:04:57 by iliastepano       #+#    #+#             */
-/*   Updated: 2024/12/02 15:05:26 by iliastepano      ###   ########.fr       */
+/*   Updated: 2024/12/02 20:09:12 by iliastepano      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,18 +139,27 @@ static void	handle_without_equal_sign(char *arg, char *equal_sign)
 	create_new_key(var_index, arg, value);
 }
 
-void custom_export(char *arg)
+void custom_export(t_command *cmd_list)
 {
 	char *equal_sign;
+	t_arg *current_arg;
 
-	if (!arg)
+    if (strcmp(cmd_list->cmd_name, "export") != 0)
+        return ;
+	if (!cmd_list->args || !cmd_list->args->value)
 	{
 		print_all_env_vars_if_not_arg(NULL);
 		return;
 	}
-    equal_sign = strchr(arg, '=');
-	handle_with_equal_sign(arg, equal_sign);
-	handle_without_equal_sign(arg, equal_sign);
+
+	current_arg = cmd_list->args;
+	while (current_arg)
+	{
+		equal_sign = strchr(current_arg->value, '=');
+		handle_with_equal_sign(current_arg->value, equal_sign);
+		handle_without_equal_sign(current_arg->value, equal_sign);
+		current_arg = current_arg->next;
+	}
 }
 
 // int main(int argc, char **argv)

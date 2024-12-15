@@ -1,4 +1,16 @@
-#include <minishell.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_expansion.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/06 19:35:13 by imqandyl          #+#    #+#             */
+/*   Updated: 2024/12/06 19:35:14 by imqandyl         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../include/minishell.h"
 
 //When get_var_name is called, it will return "USER" and update i to point to the character after USER.
 static char *get_var_name(char *str, int *i)

@@ -6,11 +6,11 @@
 /*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 19:09:57 by imqandyl          #+#    #+#             */
-/*   Updated: 2024/12/01 00:01:05 by imqandyl         ###   ########.fr       */
+/*   Updated: 2024/12/06 19:35:53 by imqandyl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "../include/minishell.h"
 // just categorizes them
 static void handle_buffer_flush(t_token **token_list, char *buffer, int *j)
 {

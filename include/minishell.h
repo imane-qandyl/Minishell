@@ -6,7 +6,7 @@
 /*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 21:15:25 by imqandyl          #+#    #+#             */
-/*   Updated: 2024/12/01 19:42:47 by imqandyl         ###   ########.fr       */
+/*   Updated: 2024/12/06 15:17:19 by imqandyl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ typedef struct s_command
 {
 	char				*cmd_name;	/* The command name (e.g., "echo") */
 	t_arg				*args;		/* A linked list of arguments */
+	char				**argv;		/* Array of arguments for execve */
+	int					argc;		/* Count of arguments */
 	char				*infile;	/* Input redirection (optional) */
 	char				*outfile;	/* Output redirection (optional) */
 	int					append_mode;	/* For >> redirection */
@@ -89,6 +91,17 @@ typedef struct s_error
     int line;
     int column;
 } t_error;
+
+typedef struct s_exec_info
+{
+    int     pipe_fd[2];
+    pid_t   pid;
+    int     status;
+    int     in_fd;
+    int     out_fd;
+    char    **env;
+    int     exit_status;
+} t_exec_info;
 
 t_token *create_token(char *value, t_token_type type);
 void add_token(t_token **list, t_token *new_token);
@@ -122,5 +135,10 @@ void custom_pwd(void);
 
 void init_environ(void);
 void cleanup_environ(void);
+
+// Add these prototypes
+void build_argv_array(t_command *cmd);
+char *resolve_command_path(t_command *cmd);
+bool is_builtin(char *cmd);
 
 #endif

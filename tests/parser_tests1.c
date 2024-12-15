@@ -96,12 +96,46 @@ static t_test_case tests[] = {
     {"ls | grep \"file\" |", false, "Pipe at end with no command"},
     {"ls | | grep \"file\"", false, "Empty pipe command"},
 
+    // {"cat file.txt | grep \"error\" | wc -l", false, "Multiple pipes not supported"}, //not handled
+    // {"ls -l|wc -l", false, "Multiple pipes without spaces"}, //not handled
+    // {"echo hello | cat | cat | cat", false, "Long pipe chain not supported"}, //not handled
+    
+    // // Additional Redirection Tests
+    // {"cat < input.txt > output.txt", true, "Input and output redirection"},
+    // {"echo hello > file1 < file2", true, "Mixed redirection order"},
+    // {"cat << EOF", false, "Heredoc not supported"}, 
+    // {"cat >> file << EOF", false, "Multiple redirections with heredoc"},
+    
+    // // Additional Quote Tests
+    // {"echo \"hello'world'\"", true, "Single quotes inside double quotes"},
+    // {"echo '\"hello world\"'", true, "Double quotes inside single quotes"},
+    // {"echo \"$HOME/test\"", true, "Environment variable in double quotes"},
+    // {"echo '$HOME/test'", true, "Environment variable in single quotes (literal)"},
+    
+    // // Additional Error Cases
+    // {"ls >", false, "Dangling redirection"},
+    // {"cat < ", false, "Dangling input redirection"},
+    // {"echo >>> file", false, "Invalid redirection operator"},
+    // {"ls > > file", false, "Invalid double redirection"},
+    
+    // // Additional Edge Cases
+    // {"echo \"hello   world\"", true, "Preserving spaces in quotes"},
+    // {"echo 'hello   world'", true, "Preserving spaces in single quotes"},
+    // {"ls -la | grep \".txt\" > \"my results.txt\"", true, "Complex command with spaces in filename"},
+    // {"echo $USER", true, "Environment variable expansion"},
+    
+    // // Additional Invalid Syntax
+    // {"ls &&", false, "Dangling AND operator"},
+    // {"|| ls", false, "Starting with OR operator"},
+    // {"ls ||| grep", false, "Triple pipe"},
+    // {"ls && || grep", false, "Mixed operators"},
+
     // End marker
     {NULL, false, NULL}
 };
 // ... existing code with struct and test cases ...
 
-void run_parser_tests(void)
+void run_parser_tests1(void)
 {
     int i = 0;
     int passed = 0;

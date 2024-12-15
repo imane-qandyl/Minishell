@@ -6,7 +6,7 @@
 /*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 19:09:22 by imqandyl          #+#    #+#             */
-/*   Updated: 2024/12/15 16:45:39 by imqandyl         ###   ########.fr       */
+/*   Updated: 2024/12/15 21:30:52 by imqandyl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,16 @@ int handle_quotes(char *input, int *i, char *buffer, int *j)
                 {
                     var_name[k++] = input[(*i)++];
                 }
-                
-                char *value = getenv(var_name);
-                if (value)
-                {
-                    for (k = 0; value[k] && *j < 255; k++) // Prevent buffer overflow
-                    {
-                        buffer[(*j)++] = value[k];
-                    }
-                }
+                // char *value = getenv(var_name);
+                // if (value)
+                // {
+                //     for (k = 0; value[k] && *j < 255; k++) // Prevent buffer overflow
+                //     {
+                //         buffer[(*j)++] = value[k];
+                //     }
+                // }
+                // If we want empty string for environment variables in double quotes
+                buffer[*j] = '\0';  // Just add null terminator without copying anything
             }
             else
             {

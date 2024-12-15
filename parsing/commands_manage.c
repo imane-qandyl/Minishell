@@ -6,11 +6,11 @@
 /*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 19:08:46 by imqandyl          #+#    #+#             */
-/*   Updated: 2024/11/25 13:23:25 by imqandyl         ###   ########.fr       */
+/*   Updated: 2024/12/06 19:34:56 by imqandyl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "../include/minishell.h"
 
 t_command *create_command(void)
 {

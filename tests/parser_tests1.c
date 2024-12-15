@@ -135,7 +135,7 @@ static t_test_case tests[] = {
 };
 // ... existing code with struct and test cases ...
 
-void run_parser_tests(void)
+void run_parser_tests1(void)
 {
     int i = 0;
     int passed = 0;

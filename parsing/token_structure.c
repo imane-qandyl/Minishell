@@ -6,11 +6,11 @@
 /*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 10:24:29 by imqandyl          #+#    #+#             */
-/*   Updated: 2024/11/25 10:20:01 by imqandyl         ###   ########.fr       */
+/*   Updated: 2024/12/06 19:35:49 by imqandyl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "../include/minishell.h"
 // Create a new token
 t_token *create_token(char *value, t_token_type type)
 {

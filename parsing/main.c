@@ -6,17 +6,19 @@
 /*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 19:24:32 by imqandyl          #+#    #+#             */
-/*   Updated: 2024/12/02 15:24:14 by imqandyl         ###   ########.fr       */
+/*   Updated: 2024/12/15 16:54:44 by imqandyl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "../include/minishell.h"
 
 int main(void)
 {
+    // run_parser_tests1();
+    run_parser_tests();
+
     char *input;
     t_command *commands;
-     run_parser_tests();
     // signal(SIGINT, handle_sigint);   // Ctrl-C
     // signal(SIGQUIT, handle_sigquit); // Ctrl-
     // signal(SIGTERM, handle_sigterm); // Ctrl-D

@@ -6,11 +6,11 @@
 /*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 19:09:22 by imqandyl          #+#    #+#             */
-/*   Updated: 2024/11/25 10:19:51 by imqandyl         ###   ########.fr       */
+/*   Updated: 2024/12/15 16:45:39 by imqandyl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "../include/minishell.h"
 
 // Handle quote parsing
 int handle_quotes(char *input, int *i, char *buffer, int *j)
@@ -38,21 +38,30 @@ int handle_quotes(char *input, int *i, char *buffer, int *j)
                 int k = 0;
                 (*i)++;  // Skip $
                 
-                while (input[*i] && (isalnum(input[*i]) || input[*i] == '_')) //lik echo "$USER_NAME" without _ it would miss Nam
+                while (input[*i] && (isalnum(input[*i]) || input[*i] == '_')) 
+                {
                     var_name[k++] = input[(*i)++];
+                }
                 
                 char *value = getenv(var_name);
                 if (value)
                 {
-                    for (k = 0; value[k]; k++)
+                    for (k = 0; value[k] && *j < 255; k++) // Prevent buffer overflow
+                    {
                         buffer[(*j)++] = value[k];
+                    }
                 }
-                (*i)--; // Adjust for upcoming increment
             }
             else
             {
                 buffer[(*j)++] = input[(*i)++];
             }
+        }
+
+        // Prevent buffer overflow
+        if (*j >= 255) {
+            buffer[*j] = '\0'; // Null terminate
+            return QUOTE_ERROR; // Indicate an error
         }
     }
     

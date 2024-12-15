@@ -6,11 +6,11 @@
 /*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 08:44:59 by imqandyl          #+#    #+#             */
-/*   Updated: 2024/12/06 12:58:35 by imqandyl         ###   ########.fr       */
+/*   Updated: 2024/12/06 19:35:44 by imqandyl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "../include/minishell.h"
 // Check for invalid starting tokens
 static int check_start_token(t_token *token)
 {

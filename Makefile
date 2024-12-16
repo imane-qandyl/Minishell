@@ -1,33 +1,56 @@
 NAME = minishell
+LIBFT = libft/libft.a
 
-SRC = main.c commands_manage.c quote_handling.c token_structure.c token_to_cmd.c syntax_error.c env_expansion.c
-OBJ = $(SRC:.c=.o)
+PARSING_DIR = parsing
+EXECUTION_DIR = execution
+COMMANDS_DIR = commands
 
-PATH_SRC = ./parsing/
-PATH_OBJ = ./obj/
-SRC_FILES = $(addprefix $(PATH_SRC), $(SRC))
-OBJ_FILES = $(addprefix $(PATH_OBJ), $(OBJ))
+SRCS = $(PARSING_DIR)/token_to_cmd.c \
+       $(PARSING_DIR)/quote_handling.c \
+       $(PARSING_DIR)/token_structure.c \
+       $(PARSING_DIR)/commands_manage.c \
+       $(PARSING_DIR)/main.c \
+       $(PARSING_DIR)/syntax_error.c \
+       $(PARSING_DIR)/env_expansion.c \
+       $(EXECUTION_DIR)/signals.c \
+       $(EXECUTION_DIR)/redirections.c \
+       $(EXECUTION_DIR)/pipes.c \
+       $(EXECUTION_DIR)/executor.c \
+       $(EXECUTION_DIR)/builtins.c \
+       $(COMMANDS_DIR)/cd.c \
+       $(COMMANDS_DIR)/echo.c \
+       $(COMMANDS_DIR)/env.c \
+       $(COMMANDS_DIR)/exit.c \
+       $(COMMANDS_DIR)/export.c \
+       $(COMMANDS_DIR)/pwd.c \
+       $(COMMANDS_DIR)/unset.c
+
+OBJS = $(SRCS:.c=.o)
 
 CFLAGS = -Wall -Wextra -Werror -g -pthread -I./include
 CC = gcc
 
 HEADER = ./include/minishell.h
-LDFLAGS = -lreadline
+LDFLAGS = -lreadline -L./libft -lft
 
-all: $(NAME)
+all: $(LIBFT) $(NAME)
 
-$(NAME): $(OBJ_FILES) $(HEADER)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ_FILES) $(LDFLAGS)
+$(LIBFT):
+	@make -C libft
 
-$(PATH_OBJ)%.o: $(PATH_SRC)%.c $(HEADER)
-	@mkdir -p $(PATH_OBJ)
+$(NAME): $(OBJS) $(HEADER) $(LIBFT)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LDFLAGS)
+
+%.o: %.c $(HEADER)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@rm -rf $(PATH_OBJ)
+	@rm -f $(OBJS)
+	@make -C libft clean
 
 fclean: clean
 	@rm -f $(NAME)
+	@make -C libft fclean
 
 re: fclean all
 

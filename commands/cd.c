@@ -3,73 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iliastepanov <iliastepanov@student.42.f    +#+  +:+       +#+        */
+/*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/17 14:04:57 by iliastepano       #+#    #+#             */
-/*   Updated: 2024/11/24 18:45:54 by iliastepano      ###   ########.fr       */
+/*   Created: 2024/12/16 17:15:25 by imqandyl          #+#    #+#             */
+/*   Updated: 2024/12/16 18:21:27 by imqandyl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
-static void	cd_with_one_arg(const char *path, int argc)
+static int	handle_home_cd(void)
 {
-	int i;
+	char *home_path;
 
-	if (argc != 2)
-		return ;
-	i = -1;
-	while (g_environ[0][++i])
+	home_path = getenv("HOME");
+	if (!home_path)
 	{
-		if (strcmp(g_environ[0][i], "PWD") != 0)
-			continue ;
-		if (chdir(path) == -1)
-		{
-			perror("error: cd");
-			return ;
-		}
-		free(g_environ[1][i]);
-		g_environ[1][i] = strdup(path);
-		return ;
+		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+		return (1);
 	}
-	perror("error: PWD not found in environment");
-}
-
-static void	cd_with_no_arg(int argc)
-{
-	int i;
-
-	if (argc != 1)
-		return ;
-	i = -1;
-	while (g_environ[0][++i])
+	if (chdir(home_path) == -1)
 	{
-		if (strcmp(g_environ[0][i], "HOME") != 0)
-			continue ;
-		cd_with_one_arg(g_environ[1][i], argc);
-		return ;
+		perror("minishell: cd");
+		return (1);
 	}
-	perror("error: HOME not found in environment");
+	return (0);
 }
 
-static void	cd_with_many_arg(int argc)
+int	builtin_cd(int argc, char **argv)
 {
-	if (argc <= 2)
-		return ;
-	perror("error: cd too many arguments");
-}
+	if (!argv)
+		return (1);
 
-void custom_cd(int argc, char **argv)
-{
-	custom_pwd();
-	cd_with_no_arg(argc);
-	cd_with_one_arg(argv[1], argc);
-    cd_with_many_arg(argc);
-	custom_pwd();
+	if (argc == 1)
+		return (handle_home_cd());
+	if (argc > 2)
+	{
+		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
+		return (1);
+	}
+	if (!argv[1])
+		return (1);
+	if (chdir(argv[1]) == -1)
+	{
+		perror("minishell: cd");
+		return (1);
+	}
+	return (0);
 }
-
-// int main(int argc, char *argv[])
-// {
-// 	custom_cd(argc, argv);
-// 	return 0;
-// }

@@ -3,29 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iliastepanov <iliastepanov@student.42.f    +#+  +:+       +#+        */
+/*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/17 14:04:57 by iliastepano       #+#    #+#             */
-/*   Updated: 2024/11/24 18:46:07 by iliastepano      ###   ########.fr       */
+/*   Created: 2024/12/16 17:15:25 by imqandyl          #+#    #+#             */
+/*   Updated: 2024/12/16 17:26:07 by imqandyl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
-void custom_env(void)
+int	builtin_env(void)
 {
-    int i;
+	char	**env;
 
-    i = -1;
-    while (g_environ[0][++i] != NULL)
-        printf("%s=%s\n", g_environ[0][i], g_environ[1][i]);
+	env = environ;
+	while (*env)
+	{
+		printf("%s\n", *env);
+		env++;
+	}
+	return (0);
 }
-
-int main()
-{
-    init_environ();
-    custom_env();
-    cleanup_environ();
-    return (0);
-}
-

@@ -1,27 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iliastepanov <iliastepanov@student.42.f    +#+  +:+       +#+        */
+/*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/17 14:04:57 by iliastepano       #+#    #+#             */
-/*   Updated: 2024/11/17 14:05:10 by iliastepano      ###   ########.fr       */
+/*   Created: 2024/12/16 17:09:22 by imqandyl          #+#    #+#             */
+/*   Updated: 2024/12/16 17:09:23 by imqandyl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-extern char **environ;
-
-void builtin_env()
-{
-    char **env;
-
-    env = environ;
-    while (*env != NULL)
-    {
-        printf("%s\n", *env);
-        env++;
-    }
-}

@@ -3,24 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iliastepanov <iliastepanov@student.42.f    +#+  +:+       +#+        */
+/*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/17 14:04:57 by iliastepano       #+#    #+#             */
-/*   Updated: 2024/11/24 14:49:29 by iliastepano      ###   ########.fr       */
+/*   Created: 2024/12/16 17:15:25 by imqandyl          #+#    #+#             */
+/*   Updated: 2024/12/16 17:15:43 by imqandyl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../include/minishell.h"
 
-#include "minishell.h"
-
-void custom_exit()
+int	builtin_exit(char **argv)
 {
-    exit(0);
+	int	status;
+
+	printf("exit\n");
+	if (!argv[1])
+		exit(0);
+	status = atoi(argv[1]);
+	if (argv[2])
+	{
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		return (1);
+	}
+	exit(status);
 }
-
-
-// int main()
-// {
-//     custom_exit();
-//     return 0;
-// }

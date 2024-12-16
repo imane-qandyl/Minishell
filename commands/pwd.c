@@ -3,34 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iliastepanov <iliastepanov@student.42.f    +#+  +:+       +#+        */
+/*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/11 21:32:16 by iliastepano       #+#    #+#             */
-/*   Updated: 2024/11/24 18:29:08 by iliastepano      ###   ########.fr       */
+/*   Created: 2024/12/16 17:15:25 by imqandyl          #+#    #+#             */
+/*   Updated: 2024/12/16 18:16:11 by imqandyl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
-void custom_pwd(void)
+int	builtin_pwd(void)
 {
-    int i;
+	char	*cwd;
 
-    i = -1;
-    while (g_environ[0][++i])
-    {
-        if (strcmp(g_environ[0][i], "PWD") != 0)
-            continue ;
-        printf("%s\n", g_environ[1][i]);
-        return;
-    }
-    perror("error: PWD not found in environment");
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+	{
+		perror("minishell: pwd");
+		return (1);
+	}
+	printf("%s\n", cwd);
+	free(cwd);
+	return (0);
 }
-
-// int main()
-// {
-//     init_environ();
-//     custom_pwd();
-//     cleanup_environ();
-//     return (0);
-// }

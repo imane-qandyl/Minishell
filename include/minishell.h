@@ -6,7 +6,7 @@
 /*   By: imqandyl <imqandyl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 21:15:25 by imqandyl          #+#    #+#             */
-/*   Updated: 2024/12/06 15:17:19 by imqandyl         ###   ########.fr       */
+/*   Updated: 2024/12/16 17:36:00 by imqandyl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <stdbool.h> 
 # include <readline/readline.h>
 # include <readline/history.h>
-
+#include "../libft/libft.h"
 # include <stdbool.h>
 
 #define SYNTAX_ERROR 1
@@ -92,16 +92,12 @@ typedef struct s_error
     int column;
 } t_error;
 
-typedef struct s_exec_info
-{
-    int     pipe_fd[2];
-    pid_t   pid;
-    int     status;
-    int     in_fd;
-    int     out_fd;
-    char    **env;
-    int     exit_status;
-} t_exec_info;
+typedef struct s_pipeline {
+    int pipe_count;
+    int **pipes;      // Array of pipe file descriptors
+    pid_t *pids;      // Array of process IDs
+    int status;       // Exit status of last command
+} t_pipeline;
 
 t_token *create_token(char *value, t_token_type type);
 void add_token(t_token **list, t_token *new_token);
@@ -123,22 +119,32 @@ int handle_quotes(char *input, int *i, char *buffer, int *j);
 void free_command_list(t_command *cmd_list);
 void run_parser_tests(void);
 
-void handle_sigint(int sig);
-void handle_sigquit(int sig);
-void handle_sigterm(int sig);
-
 char *expand_env_vars(char *input, int *exit_status);
 
-void custom_pwd(void);
-void custom_env(void);
-void custom_pwd(void);
+// Execution system
+int     execute_command_line(t_command *cmd_list);
+int     execute_single_command(t_command *cmd);
+int     execute_pipeline(t_command *cmd, t_pipeline *pipeline);
+void    setup_pipeline(t_pipeline *pipeline, t_command *cmd_list);
+void    cleanup_pipeline(t_pipeline *pipeline);
 
-void init_environ(void);
-void cleanup_environ(void);
+// Builtin commands
+int     is_builtin(const char *cmd);
+int     execute_builtin(t_command *cmd);
+int     builtin_echo(int argc, char **argv);
+int     builtin_cd(int argc, char **argv);
+int     builtin_pwd(void);
+int     builtin_export(char **argv);
+int     builtin_unset(char **argv);
+int     builtin_env(void);
+int     builtin_exit(char **argv);
 
-// Add these prototypes
-void build_argv_array(t_command *cmd);
-char *resolve_command_path(t_command *cmd);
-bool is_builtin(char *cmd);
+// Redirections
+void    setup_redirections(t_command *cmd);
+void    restore_redirections(int stdin_backup, int stdout_backup);
+int     handle_heredoc(const char *delimiter);
+
+
+
 
 #endif
